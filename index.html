@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>BoolFlix</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://momentjs.com/downloads/moment.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
+
+    <!-- wrapper -->
+    <div class="wrapper">
+
+      <!-- search bar -->
+      <div class="search-bar">
+        <input class="input-film" type="text" name="" value="" placeholder="Inserisci il titolo del film">
+        <button class='film-button' type="button" name="button">Search film</button>
+      </div>
+      <!-- fine search bar -->
+
+      <!-- lista film -->
+      <ul class="list-film">
+
+      </ul>
+      <!-- fine lista film -->
+
+    </div>
+    <!-- fine wrapper -->
+
+
+    <!-- template handlebars  -->
+    <script id="entry-template" type="text/x-handlebars-template">
+      <li class="film">
+        <div class="titolo"> <span>Titolo: </span> {{title}} </div>
+        <div class="titolo-originale"> <span>Titolo Originale: </span> {{titleOriginal}}</div>
+        <div class="lingua"> <span>Lingua Originale: </span>{{language}} </div>
+        <div class="voto"> <span>Voto: </span> {{vote}} </div>
+      </li>
+    </script>
+
+    <script type="text/javascript" src="js/script.js"></script>
+  </body>
+</html>

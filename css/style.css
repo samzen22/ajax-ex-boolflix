@@ -1,0 +1,25 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* General */
+.wrapper {
+  width: 70%;
+  margin: 20px auto;
+}
+ul {
+  list-style-type: none;
+  list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+}
+li {
+  width: 300px;
+  padding: 15px 5px;
+}
+.search-bar {
+  margin-bottom: 20px;
+}
