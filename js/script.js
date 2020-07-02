@@ -32,18 +32,15 @@ $(document).ready( function() {
 
 
 
-
-
-
 ///////////////////////// FUNZIONI ///////////////////////////
 
 
 // funzione per prendere il valore dell'input
-// e inserirlo come argomento della chiamata ajax (ricerca film)
+// e inserirlo come argomento della chiamata ajax
 // ---- filmTvSearched: variabile con l'input
 function searchFilmTvSeries(filmTvSearched) {
   $.ajax({
-    url: 'https://api.themoviedb.org/3/search/movie',
+    url: 'https://api.themoviedb.org/3/search/multi',
     method: 'GET',
     data: {
       api_key: '9223e97f95bb1fdb0b5ae958392fe3c8',
@@ -54,26 +51,7 @@ function searchFilmTvSeries(filmTvSearched) {
       var arrayFilmTv = data.results;
       // richiamo la funzione handlebars per stampare a
       // schermo tutti i film che contengono la ricerca dell'utente
-      printFilm(arrayFilmTv)
-    },
-    error: function() {
-      alert('Errore')
-    }
-  });
-  // seconda chiamata all'Api per chiedere le serie tv
-  $.ajax({
-    url: 'https://api.themoviedb.org/3/search/tv',
-    method: 'GET',
-    data: {
-      api_key: '9223e97f95bb1fdb0b5ae958392fe3c8',
-      query: filmTvSearched, // variabile con all'interno il valore dell'input
-      language: 'it-IT'
-    },
-    success: function(data) {
-      var arrayFilmTv = data.results;
-      // richiamo la funzione handlebars per stampare a
-      // schermo tutte le serie tv che contengono la ricerca dell'utente
-      printSerieTv(arrayFilmTv)
+      printFilmTvSeries(arrayFilmTv)
     },
     error: function() {
       alert('Errore')
@@ -83,48 +61,29 @@ function searchFilmTvSeries(filmTvSearched) {
 
 
 // funzione handlebars per stampare i film trovati
-// ----arrayFilm: lista di film richiamati da api Ajax
-function printFilm(arrayFilm) {
+// ----arrayFilmTv: array richiamato da api Ajax
+function printFilmTvSeries(arrayFilmTV) {
   var source = $("#film-template").html();
   var template = Handlebars.compile(source);
 
-  for (var i = 0; i < arrayFilm.length; i++) {
-    var singoloFilm = arrayFilm[i];
-    var poster = 'https://image.tmdb.org/t/p/w185';
-    // stampo con handlebars le chiavi che mi interessano
-    var context =
-    {
-      poster: poster + singoloFilm.poster_path,
-      title: singoloFilm.title,
-      titleOriginal: singoloFilm.original_title,
-      language: flags(singoloFilm.original_language),
-      vote: starsVote(singoloFilm.vote_average),
-    };
-    var html = template(context);
-    $('.list-film').append(html);
-  }
-}
-
-// funzione handlebars per stampare le serie tv trovate
-// ----arrayTV: lista di serie tv richiamati da api Ajax (stesso argomento dei film)
-function printSerieTv(arrayTV) {
-  var source = $("#seriesTv-template").html();
-  var template = Handlebars.compile(source);
-
-  for (var i = 0; i < arrayTV.length; i++) {
-    var singolaSerie = arrayTV[i];
-    var poster = 'https://image.tmdb.org/t/p/w185';
-    // stampo con handlebars le chiavi che mi interessano
-    var context =
-    {
-      poster: poster + singolaSerie.poster_path,
-      title: singolaSerie.name,
-      titleOriginal: singolaSerie.original_name,
-      language: flags(singolaSerie.original_language),
-      vote: starsVote(singolaSerie.vote_average),
-    };
-    var html = template(context);
-    $('.list-film').append(html);
+  for (var i = 0; i < arrayFilmTV.length; i++) {
+    var singoloFilmTv = arrayFilmTV[i];
+    //controllo che il media_type non sia person,
+    //stampa solo film e serietv
+    if (singoloFilmTv.media_type !== 'person') {
+      var poster = 'https://image.tmdb.org/t/p/w185';
+      // stampo con handlebars le chiavi che mi interessano
+      var context =
+      {
+        poster: poster + singoloFilmTv.poster_path ,
+        title: singoloFilmTv.title || singoloFilmTv.name,
+        titleOriginal: singoloFilmTv.original_title || singoloFilmTv.original_name,
+        language: flags(singoloFilmTv.original_language),
+        vote: starsVote(singoloFilmTv.vote_average),
+      };
+      var html = template(context);
+      $('.list-film').append(html);
+    }
   }
 }
 
