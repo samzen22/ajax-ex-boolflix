@@ -20,6 +20,9 @@ li {
   width: 300px;
   padding: 15px 5px;
 }
+img {
+  width: 20px;
+}
 .search-bar {
   margin-bottom: 20px;
 }
