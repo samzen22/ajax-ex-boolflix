@@ -2,15 +2,30 @@ $(document).ready( function() {
 
   // click sul bottone per prendere il valore dell'input
   $('.film-button').click( function(){
-    // resetto la lista di film prima di iniziare la ricerca
-    $('.list-film').html(' ');
+    // resetto la lista di film//serietv prima di iniziare la ricerca
+    reset();
     // variabile in cui inserisco il valore del input
     var filmTvSearched = $('.input-film').val();
-
     // richiamo la funzione con la chiamata ajax
     // e stampo a schermo i risultati con handlebars
     searchFilmTvSeries(filmTvSearched)
+    // pulisco la search bar
+    $('.input-film').val('');
+  });
 
+  // evento col press invio
+  $('.input-film').keyup( function(){
+    if ( event.which == 13 ) {
+      // resetto la lista di film//serietv prima di iniziare la ricerca
+      reset();
+      // variabile in cui inserisco il valore del input
+      var filmTvSearched = $('.input-film').val();
+      // richiamo la funzione con la chiamata ajax
+      // e stampo a schermo i risultati con handlebars
+      searchFilmTvSeries(filmTvSearched)
+      // pulisco la search bar
+      $('.input-film').val('');
+    }
   });
 
 
@@ -75,9 +90,11 @@ function printFilm(arrayFilm) {
 
   for (var i = 0; i < arrayFilm.length; i++) {
     var singoloFilm = arrayFilm[i];
+    var poster = 'https://image.tmdb.org/t/p/w185';
     // stampo con handlebars le chiavi che mi interessano
     var context =
     {
+      poster: poster + singoloFilm.poster_path,
       title: singoloFilm.title,
       titleOriginal: singoloFilm.original_title,
       language: flags(singoloFilm.original_language),
@@ -96,9 +113,11 @@ function printSerieTv(arrayTV) {
 
   for (var i = 0; i < arrayTV.length; i++) {
     var singolaSerie = arrayTV[i];
+    var poster = 'https://image.tmdb.org/t/p/w185';
     // stampo con handlebars le chiavi che mi interessano
     var context =
     {
+      poster: poster + singolaSerie.poster_path,
       title: singolaSerie.name,
       titleOriginal: singolaSerie.original_name,
       language: flags(singolaSerie.original_language),
@@ -150,5 +169,12 @@ function flags(language) {
   }
   return flag
 }
+
+
+// funzione di reset
+function reset() {
+  $('.list-film').html(' ');
+}
+
 
 }); // !! close document ready !!

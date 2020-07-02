@@ -32,7 +32,8 @@
     <!-- template handlebars film -->
     <script id="film-template" type="text/x-handlebars-template">
       <li class="film">
-        <div class="titolo"> <span>Titolo: </span> {{title}} </div>
+        <div class="poster"> <img src="{{{poster}}}" alt=""> </div>
+        <h3 class="titolo"> {{title}} </h3>
         <div class="titolo-originale"> <span>Titolo Originale: </span> {{titleOriginal}}</div>
         <div class="lingua"> <span>Lingua Originale: </span> {{{language}}} </div>
         <div class="voto"> <span>Voto: </span> {{{vote}}} </div>
@@ -42,7 +43,8 @@
     <!-- template handlebars serie tv -->
     <script id="seriesTv-template" type="text/x-handlebars-template">
       <li class="film serietv">
-        <div class="titolo"> <span>Titolo: </span> {{title}} </div>
+        <div class="poster"> <img src="{{{poster}}}" alt=""> </div>
+        <h3 class="titolo"> {{title}} </h3>
         <div class="titolo-originale"> <span>Titolo Originale: </span> {{titleOriginal}}</div>
         <div class="lingua"> <span>Lingua Originale: </span> {{{language}}} </div>
         <div class="voto"> <span>Voto: </span> {{{vote}}} </div>
