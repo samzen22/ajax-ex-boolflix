@@ -81,6 +81,7 @@ main {
   padding: 10px;
   background-color: black;
   color: white;
+  overflow-y: auto;
 }
 .info-film-tv > * {
   margin-bottom: 10px;

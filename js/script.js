@@ -28,7 +28,8 @@ $(document).ready( function() {
       var filmTvSearched = $('.input-film').val();
       // richiamo la funzione con la chiamata ajax
       // e stampo a schermo i risultati con handlebars
-      searchFilmTvSeries(filmTvSearched)
+      searchFilmTvSeries(filmTvSearched, 'movies')
+      searchFilmTvSeries(filmTvSearched, 'tv')
       // pulisco la search bar
       $('.input-film').val('');
     }
@@ -51,9 +52,15 @@ $(document).ready( function() {
 // funzione per prendere il valore dell'input
 // e inserirlo come argomento della chiamata ajax
 // ---- filmTvSearched: variabile con l'input
-function searchFilmTvSeries(filmTvSearched) {
+// ------ type: tipo di ricerca (tv o movies)
+function searchFilmTvSeries(filmTvSearched, type) {
+  if (type === 'movies') {
+    var url = 'https://api.themoviedb.org/3/search/movie'
+  } else if (type === 'tv'){
+    url = 'https://api.themoviedb.org/3/search/tv'
+  }
   $.ajax({
-    url: 'https://api.themoviedb.org/3/search/multi',
+    url: url,
     method: 'GET',
     data: {
       api_key: '9223e97f95bb1fdb0b5ae958392fe3c8',
@@ -63,7 +70,7 @@ function searchFilmTvSeries(filmTvSearched) {
     success: function(data) {
       var arrayFilmTv = data.results;
       // richiamo la funzione handlebars per stampare a
-      // schermo tutti i film che contengono la ricerca dell'utente
+      // schermo tutti i film/serie tv che contengono la ricerca dell'utente
       printFilmTvSeries(arrayFilmTv)
     },
     error: function() {
@@ -122,24 +129,15 @@ function starsVote(vote) {
 
 // funzione per la sostituzione della lingua con l'icona dello stato
 // -----language: lingua del singolo film
-// ------ return, flag: se la lingua è uguale ad una lista di lingue presenti
-//  allego l'immagine dello stato, se no lascio scritto la lingua in caratteri
+// ------ return, flagLanguage: utilizzo sito api countryflags. inserisco codice
+//        language all'interno dell'url.
 function flags(language) {
-  var flag = '';
-  if (language ==='it') {
-    flag = '<img src="img/flag-it.png" alt="IT">';
-  } else if (language ==='en'){
-    flag = '<img src="img/flag-eng.png" alt="ENG">';
-  } else if (language ==='fr'){
-    flag = '<img src="img/flag-fr.png" alt="FR">';
-  } else if (language ==='de'){
-    flag = '<img src="img/flag-german.png" alt="DE">';
-  } else if (language ==='es'){
-    flag = '<img src="img/flag-spain.jpg" alt="ES">';
+  if (language === 'en') {
+    var flagLanguage = '<img src="https://www.countryflags.io/gb/shiny/64.png">';
   } else {
-    flag = language;
+    flagLanguage = '<img src="https://www.countryflags.io/'+ language +'/shiny/64.png">';
   }
-  return flag
+  return flagLanguage
 }
 
 
@@ -153,7 +151,7 @@ function reset() {
 // se invece è presente un poster allego il poster_path
 function posterOrNot(poster_path) {
   posterImg = '';
-  if (poster_path == null){
+  if (poster_path === null){
     posterImg = "img/poster-null.jpg"
   }
   else {
