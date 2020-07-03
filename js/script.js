@@ -1,17 +1,23 @@
 $(document).ready( function() {
 
-  // click sul bottone per prendere il valore dell'input
-  $('.film-button').click( function(){
-    // resetto la lista di film//serietv prima di iniziare la ricerca
+  //click sul logo per tornare all'homepage
+  $('.logo').click( function(){
+    // resetto la lista di film//serietv
     reset();
-    // variabile in cui inserisco il valore del input
-    var filmTvSearched = $('.input-film').val();
-    // richiamo la funzione con la chiamata ajax
-    // e stampo a schermo i risultati con handlebars
-    searchFilmTvSeries(filmTvSearched)
-    // pulisco la search bar
-    $('.input-film').val('');
   });
+
+  // // click sul bottone per prendere il valore dell'input
+  // $('.film-button').click( function(){
+  //   // resetto la lista di film//serietv prima di iniziare la ricerca
+  //   reset();
+  //   // variabile in cui inserisco il valore del input
+  //   var filmTvSearched = $('.input-film').val();
+  //   // richiamo la funzione con la chiamata ajax
+  //   // e stampo a schermo i risultati con handlebars
+  //   searchFilmTvSeries(filmTvSearched)
+  //   // pulisco la search bar
+  //   $('.input-film').val('');
+  // });
 
   // evento col press invio
   $('.input-film').keyup( function(){
@@ -28,6 +34,13 @@ $(document).ready( function() {
     }
   });
 
+  // evento mouse enter/leave per mostrare le info del film/serietv
+  $(document).on('mouseenter', '.film', function() {
+    $(this).children('.info-film-tv').removeClass('hidden').toggleClass('border-white');
+  });
+  $(document).on('mouseleave', '.film', function() {
+    $(this).children('.info-film-tv').addClass('hidden').toggleClass('border-white');
+  });
 
 
 
@@ -71,15 +84,15 @@ function printFilmTvSeries(arrayFilmTV) {
     //controllo che il media_type non sia person,
     //stampa solo film e serietv
     if (singoloFilmTv.media_type !== 'person') {
-      var poster = 'https://image.tmdb.org/t/p/w185';
       // stampo con handlebars le chiavi che mi interessano
       var context =
       {
-        poster: poster + singoloFilmTv.poster_path ,
+        poster: posterOrNot(singoloFilmTv.poster_path),
         title: singoloFilmTv.title || singoloFilmTv.name,
         titleOriginal: singoloFilmTv.original_title || singoloFilmTv.original_name,
         language: flags(singoloFilmTv.original_language),
         vote: starsVote(singoloFilmTv.vote_average),
+        overview: singoloFilmTv.overview,
       };
       var html = template(context);
       $('.list-film').append(html);
@@ -94,9 +107,9 @@ function printFilmTvSeries(arrayFilmTV) {
 function starsVote(vote) {
   var fullStar = '<i class="fas fa-star"></i>';
   var emptyStar = '<i class="far fa-star"></i>';
-  var newVote = Math.round(vote / 2);
+  var newVote = Math.ceil(vote / 2);
   var starsVote = '';
-  for (var i = 0; i < 5; i++) {
+  for (var i = 1; i <= 5; i++) {
     if (i < newVote) {
       starsVote += fullStar;
     } else {
@@ -133,6 +146,20 @@ function flags(language) {
 // funzione di reset
 function reset() {
   $('.list-film').html(' ');
+}
+
+// funzione per gestire l'immagine di copertina
+// se da valore null allego immagine standard (sorry img not avaiable)
+// se invece è presente un poster allego il poster_path
+function posterOrNot(poster_path) {
+  posterImg = '';
+  if (poster_path == null){
+    posterImg = "img/poster-null.jpg"
+  }
+  else {
+    posterImg = "https://image.tmdb.org/t/p/w342" + poster_path;
+  }
+  return posterImg
 }
 
 

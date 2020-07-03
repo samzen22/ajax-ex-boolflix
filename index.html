@@ -11,32 +11,52 @@
   </head>
   <body>
 
-    <!-- wrapper -->
-    <div class="wrapper">
-
-      <!-- search bar -->
-      <div class="search-bar">
-        <input class="input-film" type="text" name="" value="" placeholder="Inserisci il titolo del film">
-        <button class='film-button' type="button" name="button">Search film</button>
+    <!-- header -->
+    <header>
+      <!-- wrapper -->
+      <div class="wrapper header">
+        <!-- logo -->
+        <div class="logo">
+          <h1>boolflix</h1>
+        </div>
+        <!-- fine logo -->
+        <!-- search bar -->
+        <div class="search-bar">
+          <input class="input-film" type="text" name="" value="" placeholder="Search Movies or Tv Shows">
+          <!-- <button class='film-button' type="button" name="button">Search film</button> -->
+        </div>
+        <!-- fine search bar -->
       </div>
-      <!-- fine search bar -->
+      <!-- fine wrapper -->
+    </header>
+    <!-- fine header -->
 
-      <!-- lista film -->
-      <ul class="list-film">
-      </ul>
-      <!-- fine lista film -->
+    <!-- main -->
+    <main>
+      <!-- wrapper -->
+      <div class="wrapper">
+        <!-- lista film -->
+        <ul class="list-film">
+        </ul>
+        <!-- fine lista film -->
+      </div>
+      <!-- fine wrapper -->
+    </main>
+    <!-- fine main -->
 
-    </div>
-    <!-- fine wrapper -->
+
 
     <!-- template handlebars film e serie tv -->
     <script id="film-template" type="text/x-handlebars-template">
       <li class="film">
         <div class="poster"> <img src="{{{poster}}}" alt=""> </div>
-        <h3 class="titolo"> {{title}} </h3>
-        <div class="titolo-originale"> <span>Titolo Originale: </span> {{titleOriginal}}</div>
-        <div class="lingua"> <span>Lingua Originale: </span> {{{language}}} </div>
-        <div class="voto"> <span>Voto: </span> {{{vote}}} </div>
+        <div class="info-film-tv hidden">
+          <h3 class="titolo"> {{title}} </h3>
+          <div class="titolo-originale"> <span>Titolo Originale: </span> {{titleOriginal}}</div>
+          <div class="lingua"> <span>Lingua Originale: </span> {{{language}}} </div>
+          <div class="voto"> <span>Voto: </span> {{{vote}}} </div>
+          <div class="overview"> <span>Trama: </span> {{overview}} </div>
+        </div>
       </li>
     </script>
 

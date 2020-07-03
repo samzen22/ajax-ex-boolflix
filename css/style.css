@@ -6,28 +6,90 @@
 }
 
 /* General */
+body {
+  background-color: gray;
+}
 .wrapper {
-  width: 70%;
-  margin: 20px auto;
+  width: 85%;
+  margin: auto;
 }
 ul {
   list-style-type: none;
-  list-style-type: none;
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
 }
-li {
-  width: 300px;
-  padding: 15px 5px;
-  text-align: center;
+.hidden {
+  display: none;
 }
-.search-bar {
+.border-white {
+  border: 1px solid white;
+}
+
+
+/* header */
+header {
+  background-color: black;
+  height: 100px;
+}
+.header {
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+  color: red;
+  text-transform: uppercase;
+  font-weight: bold;
+  cursor: pointer;
+}
+/* search bar */
+.input-film {
+  height: 30px;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+/* main */
+main {
+  padding-top: 25px;
+}
+
+
+/* film tv */
+.film {
+  position: relative;
   margin-bottom: 20px;
 }
+
+/* poster */
+.poster {
+  width: 100%;
+}
+.poster img {
+  border: 1px solid white;
+}
+
+/* info film tv */
+.info-film-tv {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 10px;
+  background-color: black;
+  color: white;
+}
+.info-film-tv > * {
+  margin-bottom: 10px;
+}
+
 .lingua img  {
   width: 20px;
   vertical-align: bottom;
 }
-.film > * {
-  margin-bottom: 5px;
+i.fa-star {
+  color: gold;
 }
