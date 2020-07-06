@@ -65,10 +65,12 @@ main {
 
 /* poster */
 .poster {
-  width: 100%;
+  width: 70%;
 }
 .poster img {
-  border: 1px solid white;
+  border-radius: 5px;
+  max-height: 500px;
+  min-width: 342px;
 }
 
 /* info film tv */
@@ -81,7 +83,12 @@ main {
   padding: 10px;
   background-color: black;
   color: white;
+  border-radius: 5px;
   overflow-y: auto;
+  transition: all .2s ease-in-out;
+}
+.info-film-tv:hover {
+  transform: scale(1.02);
 }
 .info-film-tv > * {
   margin-bottom: 10px;

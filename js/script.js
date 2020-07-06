@@ -82,6 +82,7 @@ function searchFilmTvSeries(filmTvSearched, type) {
 
 // funzione handlebars per stampare i film trovati
 // ----arrayFilmTv: array richiamato da api Ajax
+//-----type: film o tv per url
 function printFilmTvSeries(arrayFilmTV, type) {
   var source = $("#film-template").html();
   var template = Handlebars.compile(source);
@@ -166,6 +167,7 @@ function posterOrNot(poster_path) {
 
 // funzione con chiamata all'API  per prendere il genere di film/serie tv
 // ----id: argomento id che serve per prendere il genere
+//-----type: film o tv per url
 function getGenere(id, type) {
   $.ajax({
     url: 'https://api.themoviedb.org/3/'+ type +'/' + id,
