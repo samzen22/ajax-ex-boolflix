@@ -28,7 +28,7 @@ $(document).ready( function() {
       var filmTvSearched = $('.input-film').val();
       // richiamo la funzione con la chiamata ajax
       // e stampo a schermo i risultati con handlebars
-      searchFilmTvSeries(filmTvSearched, 'movies')
+      searchFilmTvSeries(filmTvSearched, 'movie')
       searchFilmTvSeries(filmTvSearched, 'tv')
       // pulisco la search bar
       $('.input-film').val('');
@@ -54,7 +54,7 @@ $(document).ready( function() {
 // ---- filmTvSearched: variabile con l'input
 // ------ type: tipo di ricerca (tv o movies)
 function searchFilmTvSeries(filmTvSearched, type) {
-  if (type === 'movies') {
+  if (type === 'movie') {
     var url = 'https://api.themoviedb.org/3/search/movie'
   } else if (type === 'tv'){
     url = 'https://api.themoviedb.org/3/search/tv'
@@ -71,7 +71,7 @@ function searchFilmTvSeries(filmTvSearched, type) {
       var arrayFilmTv = data.results;
       // richiamo la funzione handlebars per stampare a
       // schermo tutti i film/serie tv che contengono la ricerca dell'utente
-      printFilmTvSeries(arrayFilmTv)
+      printFilmTvSeries(arrayFilmTv, type)
     },
     error: function() {
       alert('Errore')
@@ -82,7 +82,7 @@ function searchFilmTvSeries(filmTvSearched, type) {
 
 // funzione handlebars per stampare i film trovati
 // ----arrayFilmTv: array richiamato da api Ajax
-function printFilmTvSeries(arrayFilmTV) {
+function printFilmTvSeries(arrayFilmTV, type) {
   var source = $("#film-template").html();
   var template = Handlebars.compile(source);
 
@@ -105,7 +105,7 @@ function printFilmTvSeries(arrayFilmTV) {
     var html = template(context);
     $('.list-film').append(html);
 
-    getGenere(singleId)
+    getGenere(singleId, type);
   }
 
 }
@@ -164,12 +164,11 @@ function posterOrNot(poster_path) {
 }
 
 
-// funzione per prendere il genere di film/serie tv
-// -----type: tipo di ricerca (serie tv / film)
+// funzione con chiamata all'API  per prendere il genere di film/serie tv
 // ----id: argomento id che serve per prendere il genere
-function getGenere(id) {
+function getGenere(id, type) {
   $.ajax({
-    url: 'https://api.themoviedb.org/3/movie/' + id,
+    url: 'https://api.themoviedb.org/3/'+ type +'/' + id,
     method: 'GET',
     data: {
       api_key: '9223e97f95bb1fdb0b5ae958392fe3c8',
@@ -177,7 +176,7 @@ function getGenere(id) {
     },
     success: function(data) {
       var objectGenre = data.genres;
-      printGenres(objectGenre)
+      printGenres(objectGenre, id)
     },
     error: function() {
       alert('Errore')
@@ -185,28 +184,27 @@ function getGenere(id) {
   });
 }
 
-// template handlebars
-function printGenres(objectGeneri) {
+// template handlebars per stampare il genere
+// ---- objectGeneri: array di oggetti con id e nome del genere
+function printGenres(objectGeneri, id) {
   var source = $("#genere-template").html();
   var template = Handlebars.compile(source);
 
-  var arrayGenres = []
+  var dataId = $('.film[data-id="'+ id +'"]');
+  var arrayGenres = [];
 
   for (var i = 0; i < objectGeneri.length; i++) {
     var singleGenre = objectGeneri[i];
     var genre = singleGenre.name;
     arrayGenres.push(genre)
-
-    var context =
-    {
-      generi: arrayGenres
-    };
-
-    var html = template(context);
-    $('.genere').append(html);
   }
+  var context =
+  {
+    generi: arrayGenres
+  };
 
-
+  var html = template(context);
+  dataId.find('.genere').append(html);
 }
 
 
