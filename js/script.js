@@ -88,23 +88,26 @@ function printFilmTvSeries(arrayFilmTV) {
 
   for (var i = 0; i < arrayFilmTV.length; i++) {
     var singoloFilmTv = arrayFilmTV[i];
-    //controllo che il media_type non sia person,
+
+    var singleId = singoloFilmTv.id
     //stampa solo film e serietv
-    if (singoloFilmTv.media_type !== 'person') {
-      // stampo con handlebars le chiavi che mi interessano
-      var context =
-      {
-        poster: posterOrNot(singoloFilmTv.poster_path),
-        title: singoloFilmTv.title || singoloFilmTv.name,
-        titleOriginal: singoloFilmTv.original_title || singoloFilmTv.original_name,
-        language: flags(singoloFilmTv.original_language),
-        vote: starsVote(singoloFilmTv.vote_average),
-        overview: singoloFilmTv.overview,
-      };
-      var html = template(context);
-      $('.list-film').append(html);
-    }
+    // stampo con handlebars le chiavi che mi interessano
+    var context =
+    {
+      poster: posterOrNot(singoloFilmTv.poster_path),
+      title: singoloFilmTv.title || singoloFilmTv.name,
+      titleOriginal: singoloFilmTv.original_title || singoloFilmTv.original_name,
+      language: flags(singoloFilmTv.original_language),
+      vote: starsVote(singoloFilmTv.vote_average),
+      overview: singoloFilmTv.overview,
+      movie_id: singoloFilmTv.id
+    };
+    var html = template(context);
+    $('.list-film').append(html);
+
+    getGenere(singleId)
   }
+
 }
 
 
@@ -158,6 +161,52 @@ function posterOrNot(poster_path) {
     posterImg = "https://image.tmdb.org/t/p/w342" + poster_path;
   }
   return posterImg
+}
+
+
+// funzione per prendere il genere di film/serie tv
+// -----type: tipo di ricerca (serie tv / film)
+// ----id: argomento id che serve per prendere il genere
+function getGenere(id) {
+  $.ajax({
+    url: 'https://api.themoviedb.org/3/movie/' + id,
+    method: 'GET',
+    data: {
+      api_key: '9223e97f95bb1fdb0b5ae958392fe3c8',
+      language: 'it-IT'
+    },
+    success: function(data) {
+      var objectGenre = data.genres;
+      printGenres(objectGenre)
+    },
+    error: function() {
+      alert('Errore')
+    }
+  });
+}
+
+// template handlebars
+function printGenres(objectGeneri) {
+  var source = $("#genere-template").html();
+  var template = Handlebars.compile(source);
+
+  var arrayGenres = []
+
+  for (var i = 0; i < objectGeneri.length; i++) {
+    var singleGenre = objectGeneri[i];
+    var genre = singleGenre.name;
+    arrayGenres.push(genre)
+
+    var context =
+    {
+      generi: arrayGenres
+    };
+
+    var html = template(context);
+    $('.genere').append(html);
+  }
+
+
 }
 
 

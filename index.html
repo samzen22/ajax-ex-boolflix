@@ -48,16 +48,28 @@
 
     <!-- template handlebars film e serie tv -->
     <script id="film-template" type="text/x-handlebars-template">
-      <li class="film">
+      <li class="film" data-id="{{movie_id}}">
         <div class="poster"> <img src="{{{poster}}}" alt=""> </div>
         <div class="info-film-tv hidden">
           <h3 class="titolo"> {{title}} </h3>
           <div class="titolo-originale"> <span>Titolo Originale: </span> {{titleOriginal}}</div>
           <div class="lingua"> <span>Lingua Originale: </span> {{{language}}} </div>
           <div class="voto"> <span>Voto: </span> {{{vote}}} </div>
+          <div class="genere"> </div>
           <div class="overview"> <span>Trama: </span> {{overview}} </div>
         </div>
       </li>
+    </script>
+
+
+    <!-- template handlebars genere -->
+    <script id="genere-template" type="text/x-handlebars-template">
+      <div class="genre">
+        Genere:
+        {{#each generi}}
+          <span>{{this}}</span>
+        {{/each}}
+      </div>
     </script>
 
     <script type="text/javascript" src="js/script.js"></script>
